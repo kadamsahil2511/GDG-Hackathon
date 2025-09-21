@@ -1,13 +1,13 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { ReactorHome } from "../components/ReactorHome";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "REACTOR - Real-time Fact Checking" },
+    { name: "description", content: "Advanced fact-checking platform with real-time claim detection, source verification, and AI-powered analysis." },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <ReactorHome />;
 }
