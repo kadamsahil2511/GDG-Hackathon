@@ -141,5 +141,76 @@
     "explanation": "Numerous reputable sources, including fashion publications and film industry resources, confirm that Giorgio Armani designed costumes for over 100 films. This is a significant aspect of his career and influence on the fashion and film industries. The article also features various Armani film costumes, that supports this claim.",
     "image_description": "A newspaper article highlighting Giorgio Armani's contribution to Hollywood style through costume design. It showcases specific films where Armani designed costumes, including The Dark Knight, American Gigolo, The Untouchables, and The Wolf of Wall Street.",
     "source_type": "image"
+  },
+  {
+    "claim": "The Earth is flat according to recent studies",
+    "is_correct": false,
+    "confidence_score": 100,
+    "category": "Science",
+    "sources": [
+      "https://www.nasa.gov/mission_pages/noaa-n/climate/climate_shape.html",
+      "https://www.usgs.gov/faqs/what-evidence-proves-earth-round",
+      "https://www.planetary.org/articles/how-do-we-know-earth-is-round"
+    ],
+    "explanation": "The claim that recent studies support the idea of a flat Earth is demonstrably false. Overwhelming scientific evidence from various fields, including physics, astronomy, and geodesy, confirms that the Earth is an oblate spheroid (a sphere that is slightly flattened at its poles). NASA, USGS, and The Planetary Society all provide abundant evidence, ranging from satellite imagery and GPS data to observations of eclipses and ship disappearances over the horizon, all contradicting the flat-Earth theory. No credible scientific study in recent history has supported a flat Earth model. The few individuals or groups claiming otherwise are typically engaging in pseudoscience, misinterpreting data, or promoting conspiracy theories."
+  },
+  {
+    "claim": "hackerank is a website for hackers",
+    "is_correct": false,
+    "confidence_score": 95,
+    "category": "Technology",
+    "sources": [
+      "https://www.hackerrank.com/about-us",
+      "https://en.wikipedia.org/wiki/HackerRank"
+    ],
+    "explanation": "HackerRank is a technology company that focuses on competitive programming challenges for software developers and companies. While the term 'hacker' can sometimes be used to refer to someone who creatively solves problems using technology, HackerRank's primary focus is on assessing and improving coding skills, rather than malicious hacking or unauthorized access. Its platform provides coding challenges, skill assessments, and interview preparation tools. The 'hackers' using the platform are generally software developers or students improving their coding abilities in a competitive environment. It is not a website designed for or promoting illegal hacking activities."
+  },
+  {
+    "claim": "Armani designed costumes for more than one hundred films.",
+    "is_correct": true,
+    "confidence_score": 95,
+    "category": "Fashion/Film",
+    "sources": [
+      "https://www.armani.com/en-us/experience/giorgio-armani-films_cod45310606hp.html"
+    ],
+    "explanation": "Giorgio Armani has a well-documented history of designing costumes for numerous films, exceeding one hundred productions over his career. This is supported by various sources including his official website and articles discussing his contributions to film costuming. He is especially noted for his work in films like 'American Gigolo', 'The Untouchables', and the Batman series.",
+    "image_description": "A newspaper article titled \"How Armani created power & style icons on the big screen\". The article discusses Giorgio Armani's contributions to Hollywood through costume design, highlighting his work in films like 'American Gigolo', 'The Untouchables', 'The Wolf of Wall Street' and Christopher Nolan's Batman Trilogy. The article includes images of actors wearing Armani designs in these films.",
+    "source_type": "image"
+  },
+  {
+    "query": "earth is flat",
+    "conclusion": "The overwhelming scientific consensus, supported by centuries of observation and experimentation, is that the Earth is a sphere (more accurately, an oblate spheroid). The 'flat Earth' theory is a conspiracy theory that contradicts a vast body of evidence and lacks scientific validity.",
+    "confidence_score": 99,
+    "sources": [
+      "https://www.nasa.gov/mission_pages/noaa-n/climate/climate_by_any_means.html",
+      "https://www.rmg.co.uk/stories/topics/how-do-we-know-earth-round",
+      "https://www.usgs.gov/faqs/how-do-we-know-earth-round",
+      "https://science.nasa.gov/resource/earth/",
+      "https://www.planetary.org/articles/how-do-we-know-the-earth-is-round",
+      "https://www.swri.org/press-releases/earth-shape-revealed-satellite-gravity-data",
+      "https://www.livescience.com/32134-flat-earth-belief.html",
+      "https://www.youtube.com/watch?v=oYEgdZ3iJwg",
+      "https://en.wikipedia.org/wiki/Shape_of_the_Earth",
+      "https://www.nationalgeographic.org/encyclopedia/great-geodesic-arc/",
+      "https://skyandtelescope.org/astronomy-resources/debunking-flat-earth/",
+      "https://www.wtamu.edu/~cbaird/sq/mobile/2013/07/mcdonald-observatorys-mcdonald-observatory-how-does-looking-at-objects-far-away-prove-earth-is-round/",
+      "https://www.scientificamerican.com/article/is-earth-flat/",
+      "https://www.space.com/34843-flat-earth-facts.html"
+    ],
+    "explanation": "The claim that the Earth is flat is demonstrably false and refuted by numerous lines of evidence:\n\n*   **Observations of Ships Disappearing Hull First:** Ships sailing away from an observer disappear hull first over the horizon, which would not occur on a flat plane. (rmg.co.uk, wtamu.edu)\n*   **Different Constellations in Different Hemispheres:** Different constellations are visible in the Northern and Southern Hemispheres. This is only possible on a sphere. (rmg.co.uk, skyandtelescope.org)\n*   **Lunar Eclipses:** The Earth's round shadow is cast on the Moon during a lunar eclipse. A flat Earth would sometimes cast a different shaped shadow, such as a line. (rmg.co.uk, nasa.gov)\n*   **Circumnavigation:** People have sailed and flown around the Earth, proving its spherical nature. (rmg.co.uk)\n*   **Satellite Imagery and GPS:** Satellites orbit the Earth and provide images and data confirming its shape. GPS technology relies on the spherical geometry of the Earth. (nasa.gov, usgs.gov)\n*   **Gravity Measurements:** Gravity pulls everything towards the center of the Earth. If the Earth were flat, gravity would pull everything towards the center of the plane, resulting in unusual and unobserved effects. (scientificamerican.com)\n*   **Varying Sunrise/Sunset Times:** The time of sunrise and sunset varies depending on location, which would not happen on a flat Earth illuminated by a local sun. (space.com)\n*   **Altitude of Stars:** The observed altitude of stars changes depending on the observer's location, further supporting a spherical Earth. (planetary.org) \n\nThe sources provided include reputable scientific organizations like NASA, USGS, Royal Museums Greenwich, The Planetary Society, and peer-reviewed scientific journals, all of which present evidence contradicting the flat Earth theory. The flat Earth theory often relies on misinformation, misinterpretations of scientific concepts, and conspiracy theories. It is important to rely on credible sources of information and scientific consensus."
+  },
+  {
+    "claim": "Armani designed costumes for more than one hundred films.",
+    "is_correct": true,
+    "confidence_score": 95,
+    "category": "Fashion/Entertainment",
+    "sources": [
+      "https://www.ft.com/content/4849c0e6-54d4-45a2-b93e-f0983b1588f4",
+      "https://www.voguebusiness.com/companies/giorgio-armanis-legacy-how-he-built-a-fashion-empire",
+      "https://www.britannica.com/biography/Giorgio-Armani"
+    ],
+    "explanation": "Giorgio Armani is well known for designing costumes for numerous films. Reports from reputable sources state that he designed for over 100 films, including major Hollywood productions.",
+    "image_description": "A newspaper article titled 'How Armani created power & style icons on the big screen' with images of actors in Armani costumes from famous films.",
+    "source_type": "image"
   }
 ]
