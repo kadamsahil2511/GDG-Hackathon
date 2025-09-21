@@ -122,12 +122,10 @@ export function ClaimDetection({ content, onClaimClick }: ClaimDetectionProps) {
 
       // Add the claim with badge
       parts.push(
-        <span
-          key={claim.id}
-          className="relative inline-block group cursor-pointer"
+        <span className="relative inline-block group cursor-pointer"
           onClick={() => onClaimClick(claim)}
         >
-          <span className="underline decoration-dashed decoration-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-1 rounded">
+          <span className="underline decoration-dashed decoration-2 hover:bg-blue-50 px-1 rounded">
             {claim.text}
           </span>
           <span className={`
@@ -161,7 +159,7 @@ export function ClaimDetection({ content, onClaimClick }: ClaimDetectionProps) {
     <div className="space-y-4">
       {/* Analysis Status */}
       {isAnalyzing && (
-        <div className="flex items-center space-x-2 text-sm text-blue-600 dark:text-blue-400">
+        <div className="flex items-center space-x-2 text-sm text-blue-600">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
           <span>Analyzing claims in real-time...</span>
         </div>
@@ -170,15 +168,15 @@ export function ClaimDetection({ content, onClaimClick }: ClaimDetectionProps) {
       {/* Content with inline badges */}
       <div 
         ref={textRef}
-        className="prose dark:prose-invert max-w-none leading-relaxed text-gray-800 dark:text-gray-200"
+        className="prose max-w-none leading-relaxed text-gray-800"
       >
         {renderContentWithBadges()}
       </div>
 
       {/* Claims Summary */}
       {detectedClaims.length > 0 && !isAnalyzing && (
-        <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">
             Detected Claims ({detectedClaims.length})
           </h3>
           <div className="flex flex-wrap gap-2">
