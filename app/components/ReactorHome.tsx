@@ -1,18 +1,87 @@
 import { useState } from "react";
+import { FactCheckDisplay } from "./FactCheckDisplay";
 
 export function ReactorHome() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [factCheckResult, setFactCheckResult] = useState(null);
+  const [error, setError] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      setSearchQuery(""); // Clear text input when image is selected
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleClearImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim() && !selectedImage) return;
     
     setIsAnalyzing(true);
-    // Simulate navigation to analysis page
-    setTimeout(() => {
-      window.location.href = `/analyze?q=${encodeURIComponent(searchQuery)}`;
-    }, 1000);
+    setError("");
+    // Don't clear previous results immediately - keep them until new ones are ready
+
+    try {
+      const formData = new FormData();
+      
+      if (selectedImage) {
+        // Convert image to base64 data URL for processing
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const imageDataUrl = reader.result as string;
+          formData.append("inputText", imageDataUrl);
+          await submitFactCheck(formData);
+        };
+        reader.readAsDataURL(selectedImage);
+      } else {
+        formData.append("inputText", searchQuery);
+        await submitFactCheck(formData);
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+      console.error("Fact-check error:", err);
+      setIsAnalyzing(false);
+    }
+  };
+
+  const submitFactCheck = async (formData: FormData) => {
+    try {
+      const response = await fetch("/api/fact-check", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setFactCheckResult(data.result);
+        setError(""); // Clear any previous errors
+      } else {
+        setError(data.error || "Failed to analyze the content");
+        // Keep previous results visible even if there's an error
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+      console.error("Fact-check error:", err);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const handleLuckyAnalysis = () => {
@@ -20,10 +89,19 @@ export function ReactorHome() {
       "The Earth is flat according to recent studies",
       "Vaccines contain microchips for tracking",
       "Climate change is not caused by human activity",
-      "COVID-19 vaccines alter human DNA"
+      "COVID-19 vaccines alter human DNA",
+      "https://www.who.int/news-room/fact-sheets/detail/coronavirus-disease-(covid-19)"
     ];
     const randomClaim = sampleClaims[Math.floor(Math.random() * sampleClaims.length)];
     setSearchQuery(randomClaim);
+  };
+
+  const handleClearResults = () => {
+    setFactCheckResult(null);
+    setError("");
+    setSearchQuery("");
+    setSelectedImage(null);
+    setImagePreview(null);
   };
 
   return (
@@ -75,11 +153,12 @@ export function ReactorHome() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Enter a claim to fact-check..."
-                  className="w-full pl-12 pr-12 py-3 text-lg border border-gray-300 rounded-full 
+                  placeholder={selectedImage ? "Image selected for analysis..." : "Enter a claim to fact-check or paste a URL..."}
+                  disabled={selectedImage !== null}
+                  className={`w-full pl-12 pr-12 py-3 text-lg border border-gray-300 rounded-full 
                            bg-white text-gray-900 
                            focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
-                           hover:shadow-lg transition-shadow"
+                           hover:shadow-lg transition-shadow ${selectedImage ? 'bg-gray-50' : ''}`}
                 />
                 {isAnalyzing && (
                   <div className="absolute right-4">
@@ -88,23 +167,76 @@ export function ReactorHome() {
                 )}
               </div>
             </form>
+            
+            {/* Image Upload Section */}
+            <div className="mt-4 flex items-center justify-center space-x-4">
+              <label className="cursor-pointer bg-blue-100 text-blue-700 px-4 py-2 rounded-lg
+                             hover:bg-blue-200 transition-colors border border-blue-300 flex items-center space-x-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.2739 9.99999L18.5739 5.69999C19.7739 4.49999 21.4139 4.49999 22.6139 5.69999C23.8139 6.89999 23.8139 8.53999 22.6139 9.73999L18.3139 14.04C17.1139 15.24 15.4739 15.24 14.2739 14.04L12.8239 12.59L9.99988 15.41L15.9999 21.41L21.4139 16L23.9999 19.59L18.5859 25C17.3859 26.2 15.7459 26.2 14.5459 25L4.99988 15.45C3.79988 14.25 3.79988 12.61 4.99988 11.41L10.4139 6L16.4139 12L19.2379 9.17999L17.8239 7.75999C16.6239 6.55999 16.6239 4.91999 17.8239 3.71999C19.0239 2.51999 20.6639 2.51999 21.8639 3.71999L23.2779 5.13999L20.4539 7.96399L19.0399 6.54999C18.4399 5.94999 17.4639 5.94999 16.8639 6.54999C16.2639 7.14999 16.2639 8.12599 16.8639 8.72599L18.2779 10.14L14.2739 14.14V9.99999Z" fill="currentColor"/>
+                  <rect x="4" y="4" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="2" fill="none"/>
+                  <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                  <path d="M14 14L10 10L6 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Upload Image</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+              </label>
+              
+              {selectedImage && (
+                <button
+                  onClick={handleClearImage}
+                  className="bg-red-100 text-red-700 px-4 py-2 rounded-lg
+                           hover:bg-red-200 transition-colors border border-red-300"
+                >
+                  Clear Image
+                </button>
+              )}
+            </div>
+
+            {/* Image Preview */}
+            {imagePreview && (
+              <div className="mt-4 flex justify-center">
+                <div className="relative">
+                  <img
+                    src={imagePreview}
+                    alt="Selected for analysis"
+                    className="max-w-xs max-h-48 rounded-lg shadow-md border border-gray-200"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <button
+                      onClick={handleClearImage}
+                      className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Buttons */}
           <div className="flex space-x-4 mb-8">
             <button
               onClick={handleSearch}
-              disabled={!searchQuery.trim() || isAnalyzing}
+              disabled={(!searchQuery.trim() && !selectedImage) || isAnalyzing}
               className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg
                        hover:bg-gray-200 transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed
                        border border-gray-300"
             >
-              {isAnalyzing ? "Analyzing..." : "Fact Check"}
+              {isAnalyzing ? "Analyzing..." : selectedImage ? "Analyze Image" : "Fact Check"}
             </button>
             <button
               onClick={handleLuckyAnalysis}
-              disabled={isAnalyzing}
+              disabled={isAnalyzing || selectedImage !== null}
               className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg
                        hover:bg-gray-200 transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed
@@ -112,6 +244,18 @@ export function ReactorHome() {
             >
               I'm Feeling Skeptical
             </button>
+            {(factCheckResult || error) && (
+              <button
+                onClick={handleClearResults}
+                disabled={isAnalyzing}
+                className="bg-red-100 text-red-700 px-6 py-3 rounded-lg
+                         hover:bg-red-200 transition-colors
+                         disabled:opacity-50 disabled:cursor-not-allowed
+                         border border-red-300"
+              >
+                Clear Results
+              </button>
+            )}
           </div>
 
           {/* Quick Actions */}
@@ -123,6 +267,13 @@ export function ReactorHome() {
             <button className="text-blue-600 hover:underline">Political Statements</button>
           </div>
         </div>
+
+        {/* Fact Check Results */}
+        <FactCheckDisplay 
+          result={factCheckResult}
+          isLoading={isAnalyzing}
+          error={error}
+        />
       </main>
 
       {/* Footer */}
